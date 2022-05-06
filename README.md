@@ -4,8 +4,21 @@
   - import models
   - emminince/bloom lighting
 
+## Instructions
+
+After installing node:
+
+```bash
+npm install
+```
+
+```bash
+npm run start
+```
+
 ## Dependencies/stack
 
+- node
 - react
 - three
 - @react-three/fiber
