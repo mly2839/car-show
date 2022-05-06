@@ -1,4 +1,4 @@
-import React, { useDeferredValue, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Vector3 } from "three";
 
