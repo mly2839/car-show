@@ -5,13 +5,14 @@ import { Vector3 } from "three";
 function Box ({color}) {
     //consts
     const box = useRef();
+    const time = useRef(0);
     const [xRot] = useState(() => Math.random());
     const [yRot] = useState(() => Math.random());
     const [scale] = useState(() => Math.pow(Math.random(), 2.0) * 0.5 + 0.05);
-    const [position, setPosition] = useState(resetPosition());
+    const [position, setPosition] = useState(initPosition());
 
     //function that gives a random vector for the position
-    function resetPosition() {
+    function initPosition() {
         let v = new Vector3( (Math.random() * 2 - 1) * 3, Math.random() * 2.5 + 0.1, (Math.random() * 2 - 1) * 15);
         //logic to not let it get in the lane of the car
         if (v.x < 0) {
@@ -24,9 +25,31 @@ function Box ({color}) {
         return v;
     }
 
-    //adding the position and rotation details
+    //function that gives a random vector for the position to respawn boxes
+    function resetPosition() {
+        let v = new Vector3( (Math.random() * 2 - 1) * 3, Math.random() * 2.5 + 0.1, (Math.random() * 2 - 1) * 10 + 10);
+        //logic to not let it get in the lane of the car
+        if (v.x < 0) {
+            v.x -= 1.75
+        } 
+        if (v.x > 0) {
+            v.x += 1.75
+        }
+
+        setPosition(v);
+    }
+
+    //changing position to move with scene
     useFrame((state, delta) => {
-        box.current.position.set(position.x, position.y, position.z);
+        time.current += delta * 1.2;
+        let zn = position.z - time.current;
+
+        if (zn < -10) {
+            resetPosition();
+            time.current = 0;
+        }
+
+        box.current.position.set(position.x, position.y, zn);
         box.current.rotation.x += delta * xRot;
         box.current.rotation.y += delta * yRot;
     }, [xRot, yRot, position]);

@@ -11,8 +11,10 @@ export function Rings() {
     //also sets up the alternating colors and extra properties
     useFrame((state) => {
         for (let i = 0; i < itemRef.current.length; i++) {
+            let elapsed = state.clock.getElapsedTime();
+
             let mesh = itemRef.current[i];
-            let z = (i - 7) * 3.5;
+            let z = (i - 7) * 3.5 + ((elapsed * 0.4) % 3.5) * 2;
             mesh.position.set(0,0,-z);
 
             let dist = Math.abs(z);
