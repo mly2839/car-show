@@ -1,9 +1,12 @@
 import React from 'react';
 import { Suspense } from "react";
 import "./styles/style.css";
-import { Ground } from "./Ground";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { CubeCamera, Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { Ground } from "./Ground";
+import { Car } from './Car';
+import { Rings } from './Rings';
+import { Boxes } from './Boxes'
 
 function CarShow() {
   return (
@@ -16,6 +19,24 @@ function CarShow() {
 
       { /*adding a black background*/ }
       <color args={[0, 0, 0]} attach="background" />
+
+      { /*adding cube camera*/ }
+      <CubeCamera resolution={256} frames={Infinity}>
+        {(texture) => (
+          <>
+            <Environment map={texture} />
+
+            { /*adding the car and excluding it from cube camera*/ }
+            <Car />
+          </>
+        )}
+      </CubeCamera>
+
+      { /*adding the rings*/ }
+      <Rings />
+      
+      { /*adding the boxes*/ }
+      <Boxes />
 
       { /*adding a pink spotlight*/ }
       <spotLight
